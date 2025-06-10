@@ -1,4 +1,4 @@
-package com.emilymenchu.MovieManagement;
+package com.emilymenchu.projects.MovieManagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
