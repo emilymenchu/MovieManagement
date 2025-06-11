@@ -6,10 +6,12 @@ import com.emilymenchu.projects.MovieManagement.persistence.repository.UserCrudR
 import com.emilymenchu.projects.MovieManagement.persistence.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserCrudRepository crudRepository;
@@ -19,16 +21,19 @@ public class UserServiceImpl implements UserService {
         this.crudRepository = crudRepository;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<User> findAll() {
         return crudRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<User> findAllByName(String name) {
         return crudRepository.findByNameContaining(name);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public User findByUsername(String username) {
         return crudRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("[user: " + username + "]"));
@@ -52,5 +57,11 @@ public class UserServiceImpl implements UserService {
         if (crudRepository.deleteByUsername(username) != 1) {
             throw new ObjectNotFoundException("[user: " + username + "]");
         }
+    }
+
+    @Override
+    public void deleteAll() {
+        crudRepository.deleteAll();
+        throw new RuntimeException();
     }
 }

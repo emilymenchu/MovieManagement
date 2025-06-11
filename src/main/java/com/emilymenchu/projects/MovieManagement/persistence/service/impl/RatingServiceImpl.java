@@ -6,9 +6,11 @@ import com.emilymenchu.projects.MovieManagement.persistence.repository.RatingCru
 import com.emilymenchu.projects.MovieManagement.persistence.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class RatingServiceImpl implements RatingService {
 
@@ -19,21 +21,25 @@ public class RatingServiceImpl implements RatingService {
         this.crudRepository = crudRepository;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Rating> findAll() {
         return crudRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Rating> findAllByMovieId(Long movieId) {
         return crudRepository.findByMovieId(movieId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Rating> findAllByUsername(String username) {
         return crudRepository.findByUsername(username);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Rating findById(Long id) {
         return crudRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("[rating: " + Long.toString(id) + "]"));

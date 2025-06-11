@@ -7,10 +7,12 @@ import com.emilymenchu.projects.MovieManagement.persistence.service.MovieService
 import com.emilymenchu.projects.MovieManagement.util.MovieGenre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class MovieServiceImpl implements MovieService {
 
@@ -21,26 +23,31 @@ public class MovieServiceImpl implements MovieService {
         this.movieCrudRepository = movieCrudRepository;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Movie> findAll() {
         return movieCrudRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Movie> findAllByTitle(String title) {
         return movieCrudRepository.findByTitleContaining(title);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Movie> findAllByGenre(MovieGenre genre) {
         return movieCrudRepository.findByGenre(genre);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Movie> findAllByTitleAndGenre(String title, MovieGenre genre) {
         return movieCrudRepository.findByTitleContainingAndGenre(title, genre);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Movie findById(Long id) {
         return movieCrudRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("[movie: "+ Long.toString(id) +"]"));
