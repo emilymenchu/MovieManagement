@@ -58,10 +58,4 @@ public class UserServiceImpl implements UserService {
             throw new ObjectNotFoundException("[user: " + username + "]");
         }
     }
-
-    @Override
-    public void deleteAll() {
-        crudRepository.deleteAll();
-        throw new RuntimeException();
-    }
 }
