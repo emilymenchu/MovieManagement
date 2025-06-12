@@ -1,6 +1,9 @@
 package com.emilymenchu.projects.MovieManagement.persistence.service.impl;
 
+import com.emilymenchu.projects.MovieManagement.dto.request.SaveUser;
+import com.emilymenchu.projects.MovieManagement.dto.response.GetUser;
 import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundException;
+import com.emilymenchu.projects.MovieManagement.mapper.UserMapper;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.User;
 import com.emilymenchu.projects.MovieManagement.persistence.repository.UserCrudRepository;
 import com.emilymenchu.projects.MovieManagement.persistence.service.UserService;
@@ -23,33 +26,37 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<User> findAll() {
-        return crudRepository.findAll();
+    public List<GetUser> findAll() {
+        return UserMapper.toGetUserList(crudRepository.findAll());
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<User> findAllByName(String name) {
-        return crudRepository.findByNameContaining(name);
+    public List<GetUser> findAllByName(String name) {
+        return UserMapper.toGetUserList(crudRepository.findByNameContaining(name));
     }
 
     @Transactional(readOnly = true)
     @Override
-    public User findByUsername(String username) {
+    public GetUser findByUsername(String username) {
+        return UserMapper.toGetUserDto(this.findEntityByUsername(username));
+    }
+
+    @Transactional(readOnly = true)
+    private User findEntityByUsername(String username) {
         return crudRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("[user: " + username + "]"));
     }
 
     @Override
-    public User save(User user) {
-        return crudRepository.save(user);
+    public GetUser save(SaveUser user) {
+        return UserMapper.toGetUserDto(crudRepository.save(UserMapper.toEntity(user)));
     }
 
     @Override
-    public User update(String username, User user) {
-        User oldUser = this.findByUsername(username);
-        oldUser.setName(user.getName());
-        oldUser.setPassword(user.getPassword());
-        return crudRepository.save(oldUser);
+    public GetUser update(String username, SaveUser user) {
+        User oldUser = this.findEntityByUsername(username);
+        UserMapper.updateEntity(oldUser, user);
+        return UserMapper.toGetUserDto(crudRepository.save(oldUser));
     }
 
     @Override

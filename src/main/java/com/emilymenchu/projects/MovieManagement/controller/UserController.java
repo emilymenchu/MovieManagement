@@ -1,5 +1,7 @@
 package com.emilymenchu.projects.MovieManagement.controller;
 
+import com.emilymenchu.projects.MovieManagement.dto.request.SaveUser;
+import com.emilymenchu.projects.MovieManagement.dto.response.GetUser;
 import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundException;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.User;
 import com.emilymenchu.projects.MovieManagement.persistence.service.UserService;
@@ -22,12 +24,12 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<GetUser>> findAll(){
         return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<User> findByUsername(@PathVariable String username) {
+    public ResponseEntity<GetUser> findByUsername(@PathVariable String username) {
         try {
             return ResponseEntity.ok(userService.findByUsername(username));
         } catch (ObjectNotFoundException e) {
@@ -36,15 +38,15 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> save(@RequestBody User user, HttpServletRequest request) {
-        User userCreated = userService.save(user);
+    public ResponseEntity<GetUser> save(@RequestBody SaveUser user, HttpServletRequest request) {
+        GetUser userCreated = userService.save(user);
         String baseURL = request.getRequestURL().toString();
-        URI newLocation = URI.create(baseURL + "/" + userCreated.getId());
+        URI newLocation = URI.create(baseURL + "/" + userCreated.username());
         return ResponseEntity.created(newLocation).body(userCreated);
     }
 
     @PutMapping("/{username}")
-    public ResponseEntity<User> update(@PathVariable String username, @RequestBody User user) {
+    public ResponseEntity<GetUser> update(@PathVariable String username, @RequestBody SaveUser user) {
         try {
             return ResponseEntity.ok(userService.update(username, user));
         } catch (ObjectNotFoundException e) {

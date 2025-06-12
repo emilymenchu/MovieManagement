@@ -1,6 +1,9 @@
 package com.emilymenchu.projects.MovieManagement.persistence.service.impl;
 
+import com.emilymenchu.projects.MovieManagement.dto.request.SaveMovie;
+import com.emilymenchu.projects.MovieManagement.dto.response.GetMovie;
 import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundException;
+import com.emilymenchu.projects.MovieManagement.mapper.MovieMapper;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Movie;
 import com.emilymenchu.projects.MovieManagement.persistence.repository.MovieCrudRepository;
 import com.emilymenchu.projects.MovieManagement.persistence.service.MovieService;
@@ -25,52 +28,55 @@ public class MovieServiceImpl implements MovieService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Movie> findAll() {
-        return movieCrudRepository.findAll();
+    public List<GetMovie> findAll() {
+        return MovieMapper.toGetDtoList(movieCrudRepository.findAll());
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<Movie> findAllByTitle(String title) {
-        return movieCrudRepository.findByTitleContaining(title);
+    public List<GetMovie> findAllByTitle(String title) {
+        return MovieMapper.toGetDtoList(movieCrudRepository.findByTitleContaining(title));
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<Movie> findAllByGenre(MovieGenre genre) {
-        return movieCrudRepository.findByGenre(genre);
+    public List<GetMovie> findAllByGenre(MovieGenre genre) {
+        return MovieMapper.toGetDtoList(movieCrudRepository.findByGenre(genre));
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<Movie> findAllByTitleAndGenre(String title, MovieGenre genre) {
-        return movieCrudRepository.findByTitleContainingAndGenre(title, genre);
+    public List<GetMovie> findAllByTitleAndGenre(String title, MovieGenre genre) {
+        return MovieMapper.toGetDtoList(movieCrudRepository.findByTitleContainingAndGenre(title, genre));
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Movie findById(Long id) {
-        return movieCrudRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("[movie: "+ Long.toString(id) +"]"));
+    public GetMovie findById(Long id) {
+        return MovieMapper.toGetDto(this.findEntityById(id));
+    }
+
+    @Transactional(readOnly = true)
+    private Movie findEntityById(Long id) {
+        return movieCrudRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("[movie: "+ Long.toString(id) +"]"));
     }
 
     @Override
-    public Movie save(Movie movie) {
-        return movieCrudRepository.save(movie);
+    public GetMovie save(SaveMovie movie) {
+        return MovieMapper.toGetDto(movieCrudRepository.save(MovieMapper.toEntity(movie)));
     }
 
     @Override
-    public Movie update(Long id, Movie newMovie) {
-        Movie oldMovie = this.findById(id);
-        oldMovie.setGenre(newMovie.getGenre());
-        oldMovie.setReleaseYear(newMovie.getReleaseYear());
-        oldMovie.setTitle(newMovie.getTitle());
-        oldMovie.setDirector(newMovie.getDirector());
-        return movieCrudRepository.save(oldMovie);
+    public GetMovie update(Long id, SaveMovie newMovie) {
+        Movie oldMovie = this.findEntityById(id);
+        MovieMapper.updateEntity(oldMovie, newMovie);
+        return MovieMapper.toGetDto(movieCrudRepository.save(oldMovie));
     }
 
     @Override
     public void delete(Long id) {
-        Movie movie = this.findById(id);
+        Movie movie = this.findEntityById(id);
         movieCrudRepository.delete(movie);
     }
 }

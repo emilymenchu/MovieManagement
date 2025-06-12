@@ -1,5 +1,7 @@
 package com.emilymenchu.projects.MovieManagement.controller;
 
+import com.emilymenchu.projects.MovieManagement.dto.request.SaveMovie;
+import com.emilymenchu.projects.MovieManagement.dto.response.GetMovie;
 import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundException;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Movie;
 import com.emilymenchu.projects.MovieManagement.persistence.service.MovieService;
@@ -26,13 +28,13 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Movie>> findAll() {
+    public ResponseEntity<List<GetMovie>> findAll() {
 //        return new ResponseEntity<>(movieService.findAll(), HttpStatus.OK);
         return ResponseEntity.ok(movieService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Movie> findById(@PathVariable Long id) {
+    public ResponseEntity<GetMovie> findById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(movieService.findById(id));
         } catch (ObjectNotFoundException e) {
@@ -41,15 +43,15 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<Movie> createOne(@RequestBody Movie movie, HttpServletRequest request) {
-        Movie movieCreated = movieService.save(movie);
+    public ResponseEntity<GetMovie> createOne(@RequestBody SaveMovie movie, HttpServletRequest request) {
+        GetMovie movieCreated = movieService.save(movie);
         String baseURL = request.getRequestURL().toString();
-        URI newLocation = URI.create(baseURL + "/" + movieCreated.getId());
+        URI newLocation = URI.create(baseURL + "/" + movieCreated.id());
         return ResponseEntity.created(newLocation).body(movieCreated);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Movie> update(@PathVariable Long id, @RequestBody Movie movie) {
+    public ResponseEntity<GetMovie> update(@PathVariable Long id, @RequestBody SaveMovie movie) {
         try {
             return ResponseEntity.ok(movieService.update(id, movie));
         } catch (ObjectNotFoundException e) {
