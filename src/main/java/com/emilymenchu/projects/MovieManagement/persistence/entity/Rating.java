@@ -1,5 +1,8 @@
 package com.emilymenchu.projects.MovieManagement.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Check;
 
@@ -7,12 +10,15 @@ import org.hibernate.annotations.Check;
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     @Column(name = "movie_id", nullable = false)
+    @JsonProperty(value = "movie-id")
     private Long movieId;
 
     @Column(name = "user_id", nullable = false)
+    @JsonProperty(value = "user-id")
     private Long userId;
 
     @Check(constraints = "rating >= 0 and rating <= 5")
@@ -21,10 +27,13 @@ public class Rating {
 
     @ManyToOne
     @JoinColumn(name = "movie_id", insertable = false, updatable = false)
+//    @JsonIgnore
+    @JsonBackReference("movie-to-ratings")
     private Movie movie;
 
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JsonBackReference("user-to-ratings")
     private User user;
 
     public Long getId() {
