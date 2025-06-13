@@ -31,11 +31,7 @@ public class UserController {
 
     @GetMapping("/{username}")
     public ResponseEntity<GetUser> findByUsername(@PathVariable String username) {
-        try {
             return ResponseEntity.ok(userService.findByUsername(username));
-        } catch (ObjectNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @PostMapping
@@ -48,20 +44,12 @@ public class UserController {
 
     @PutMapping("/{username}")
     public ResponseEntity<GetUser> update(@PathVariable String username, @RequestBody @Valid SaveUser user) {
-        try {
             return ResponseEntity.ok(userService.update(username, user));
-        } catch (ObjectNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @DeleteMapping("/{username}")
     public ResponseEntity<Void> delete(@PathVariable String username) {
-        try {
             userService.deleteByUsername(username);
             return ResponseEntity.noContent().build();
-        } catch (ObjectNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 }

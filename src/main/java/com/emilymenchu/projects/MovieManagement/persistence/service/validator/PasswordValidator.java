@@ -3,11 +3,12 @@ package com.emilymenchu.projects.MovieManagement.persistence.service.validator;
 import ch.qos.logback.core.util.StringUtil;
 import com.emilymenchu.projects.MovieManagement.exception.InvalidPasswordException;
 import org.springframework.util.StringUtils;
+import org.springframework.web.server.ResponseStatusException;
 
 public class PasswordValidator {
     public static void validatePassword(String password, String passwordRepeated){
         if (!StringUtils.hasText(password) || !StringUtils.hasText(passwordRepeated)) {
-            throw new IllegalArgumentException("Passwords must contain data");
+            throw new ResponseStatusException(400, "Passwords must contain data", new IllegalArgumentException("Passwords must contain data"));
         }
 
         if (!password.equals(passwordRepeated)) {

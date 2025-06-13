@@ -36,11 +36,7 @@ public class MovieController {
 
     @GetMapping("/{id}")
     public ResponseEntity<GetMovie> findById(@PathVariable Long id) {
-        try {
             return ResponseEntity.ok(movieService.findById(id));
-        } catch (ObjectNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @PostMapping
@@ -53,20 +49,12 @@ public class MovieController {
 
     @PutMapping("/{id}")
     public ResponseEntity<GetMovie> update(@PathVariable Long id, @RequestBody @Valid SaveMovie movie) {
-        try {
             return ResponseEntity.ok(movieService.update(id, movie));
-        } catch (ObjectNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
-        try {
             movieService.delete(id);
             return ResponseEntity.noContent().build();
-        } catch (ObjectNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 }
