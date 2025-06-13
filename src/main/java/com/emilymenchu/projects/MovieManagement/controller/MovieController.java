@@ -1,18 +1,27 @@
 package com.emilymenchu.projects.MovieManagement.controller;
 
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveMovie;
+import com.emilymenchu.projects.MovieManagement.dto.response.ApiError;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetMovie;
+import com.emilymenchu.projects.MovieManagement.exception.InvalidPasswordException;
 import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundException;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Movie;
 import com.emilymenchu.projects.MovieManagement.persistence.service.MovieService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 
