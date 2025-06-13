@@ -6,6 +6,7 @@ import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundExceptio
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Movie;
 import com.emilymenchu.projects.MovieManagement.persistence.service.MovieService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<GetMovie> createOne(@RequestBody SaveMovie movie, HttpServletRequest request) {
+    public ResponseEntity<GetMovie> createOne(@RequestBody @Valid SaveMovie movie, HttpServletRequest request) {
         GetMovie movieCreated = movieService.save(movie);
         String baseURL = request.getRequestURL().toString();
         URI newLocation = URI.create(baseURL + "/" + movieCreated.id());
@@ -51,7 +52,7 @@ public class MovieController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GetMovie> update(@PathVariable Long id, @RequestBody SaveMovie movie) {
+    public ResponseEntity<GetMovie> update(@PathVariable Long id, @RequestBody @Valid SaveMovie movie) {
         try {
             return ResponseEntity.ok(movieService.update(id, movie));
         } catch (ObjectNotFoundException e) {

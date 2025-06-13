@@ -6,6 +6,7 @@ import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundExceptio
 import com.emilymenchu.projects.MovieManagement.persistence.entity.User;
 import com.emilymenchu.projects.MovieManagement.persistence.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<GetUser> save(@RequestBody SaveUser user, HttpServletRequest request) {
+    public ResponseEntity<GetUser> save(@RequestBody @Valid SaveUser user, HttpServletRequest request) {
         GetUser userCreated = userService.save(user);
         String baseURL = request.getRequestURL().toString();
         URI newLocation = URI.create(baseURL + "/" + userCreated.username());
@@ -46,7 +47,7 @@ public class UserController {
     }
 
     @PutMapping("/{username}")
-    public ResponseEntity<GetUser> update(@PathVariable String username, @RequestBody SaveUser user) {
+    public ResponseEntity<GetUser> update(@PathVariable String username, @RequestBody @Valid SaveUser user) {
         try {
             return ResponseEntity.ok(userService.update(username, user));
         } catch (ObjectNotFoundException e) {

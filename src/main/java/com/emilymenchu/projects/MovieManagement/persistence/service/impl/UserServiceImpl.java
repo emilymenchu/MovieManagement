@@ -7,6 +7,7 @@ import com.emilymenchu.projects.MovieManagement.mapper.UserMapper;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.User;
 import com.emilymenchu.projects.MovieManagement.persistence.repository.UserCrudRepository;
 import com.emilymenchu.projects.MovieManagement.persistence.service.UserService;
+import com.emilymenchu.projects.MovieManagement.persistence.service.validator.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,11 +50,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public GetUser save(SaveUser user) {
+        PasswordValidator.validatePassword(user.password(), user.passwordRepeated());
         return UserMapper.toGetUserDto(crudRepository.save(UserMapper.toEntity(user)));
     }
 
     @Override
     public GetUser update(String username, SaveUser user) {
+        PasswordValidator.validatePassword(user.password(), user.passwordRepeated());
         User oldUser = this.findEntityByUsername(username);
         UserMapper.updateEntity(oldUser, user);
         return UserMapper.toGetUserDto(crudRepository.save(oldUser));
