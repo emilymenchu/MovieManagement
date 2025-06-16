@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public record MovieSearchCriteria(
         String title,
-        MovieGenre genre,
+        MovieGenre[] genres,
         Integer minReleaseYear,
         Integer maxReleaseYear,
         Integer minAverageRating

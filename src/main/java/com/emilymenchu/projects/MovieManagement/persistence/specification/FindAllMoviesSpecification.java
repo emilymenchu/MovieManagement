@@ -3,6 +3,7 @@ package com.emilymenchu.projects.MovieManagement.persistence.specification;
 import com.emilymenchu.projects.MovieManagement.dto.request.MovieSearchCriteria;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Movie;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Rating;
+import com.emilymenchu.projects.MovieManagement.util.MovieGenre;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
@@ -25,8 +26,12 @@ public class FindAllMoviesSpecification implements Specification<Movie> {
             predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), "%" + this.searchCriteria.title().toLowerCase() + "%"));
         }
 
-        if (searchCriteria.genre() != null) {
-            predicates.add(criteriaBuilder.equal(root.get("genre"), this.searchCriteria.genre()));
+        if (searchCriteria.genres() != null && searchCriteria.genres().length > 0) {
+            List<Predicate> genrePredicates = new ArrayList<>();
+            for (MovieGenre genre : searchCriteria.genres()) {
+                genrePredicates.add(criteriaBuilder.equal(root.get("genre"), genre));
+            }
+            predicates.add(criteriaBuilder.or(genrePredicates.toArray(new Predicate[0])));
         }
 
         if (searchCriteria.minReleaseYear() != null && searchCriteria.minReleaseYear() > 0) {
