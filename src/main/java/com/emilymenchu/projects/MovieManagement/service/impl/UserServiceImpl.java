@@ -1,4 +1,4 @@
-package com.emilymenchu.projects.MovieManagement.persistence.service.impl;
+package com.emilymenchu.projects.MovieManagement.service.impl;
 
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveUser;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetUser;
@@ -6,8 +6,8 @@ import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundExceptio
 import com.emilymenchu.projects.MovieManagement.mapper.UserMapper;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.User;
 import com.emilymenchu.projects.MovieManagement.persistence.repository.UserCrudRepository;
-import com.emilymenchu.projects.MovieManagement.persistence.service.UserService;
-import com.emilymenchu.projects.MovieManagement.persistence.service.validator.PasswordValidator;
+import com.emilymenchu.projects.MovieManagement.service.UserService;
+import com.emilymenchu.projects.MovieManagement.service.validator.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

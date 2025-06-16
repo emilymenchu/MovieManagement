@@ -1,8 +1,7 @@
-package com.emilymenchu.projects.MovieManagement.persistence.service;
+package com.emilymenchu.projects.MovieManagement.service;
 
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveUser;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetUser;
-import com.emilymenchu.projects.MovieManagement.persistence.entity.User;
 
 import java.util.List;
 

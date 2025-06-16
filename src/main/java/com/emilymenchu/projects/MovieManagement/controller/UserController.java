@@ -2,9 +2,7 @@ package com.emilymenchu.projects.MovieManagement.controller;
 
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveUser;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetUser;
-import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundException;
-import com.emilymenchu.projects.MovieManagement.persistence.entity.User;
-import com.emilymenchu.projects.MovieManagement.persistence.service.UserService;
+import com.emilymenchu.projects.MovieManagement.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

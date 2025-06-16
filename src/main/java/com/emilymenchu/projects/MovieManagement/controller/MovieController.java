@@ -1,29 +1,18 @@
 package com.emilymenchu.projects.MovieManagement.controller;
 
+import com.emilymenchu.projects.MovieManagement.dto.request.MovieSearchCriteria;
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveMovie;
-import com.emilymenchu.projects.MovieManagement.dto.response.ApiError;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetMovie;
-import com.emilymenchu.projects.MovieManagement.exception.InvalidPasswordException;
-import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundException;
-import com.emilymenchu.projects.MovieManagement.persistence.entity.Movie;
-import com.emilymenchu.projects.MovieManagement.persistence.service.MovieService;
+import com.emilymenchu.projects.MovieManagement.service.MovieService;
+import com.emilymenchu.projects.MovieManagement.util.MovieGenre;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.net.URI;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
-import java.util.Objects;
 
 
 @RestController
@@ -38,9 +27,15 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetMovie>> findAll() {
+    public ResponseEntity<List<GetMovie>> findAll(@RequestParam(required = false) String title,
+                                                  @RequestParam(required = false) MovieGenre genre,
+                                                  @RequestParam(required = false) Integer minReleaseYear,
+                                                  @RequestParam(required = false) Integer maxReleaseYear,
+                                                  @RequestParam(required = false) Integer minAverageRating
+                                                  ) {
 //        return new ResponseEntity<>(movieService.findAll(), HttpStatus.OK);
-        return ResponseEntity.ok(movieService.findAll());
+        MovieSearchCriteria searchCriteria = new MovieSearchCriteria(title, genre, minReleaseYear, maxReleaseYear, minAverageRating);
+        return ResponseEntity.ok(movieService.findAll(searchCriteria));
     }
 
     @GetMapping("/{id}")

@@ -1,9 +1,9 @@
-package com.emilymenchu.projects.MovieManagement.persistence.service.impl;
+package com.emilymenchu.projects.MovieManagement.service.impl;
 
 import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundException;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Rating;
 import com.emilymenchu.projects.MovieManagement.persistence.repository.RatingCrudRepository;
-import com.emilymenchu.projects.MovieManagement.persistence.service.RatingService;
+import com.emilymenchu.projects.MovieManagement.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,19 +1,19 @@
-package com.emilymenchu.projects.MovieManagement.persistence.service.impl;
+package com.emilymenchu.projects.MovieManagement.service.impl;
 
+import com.emilymenchu.projects.MovieManagement.dto.request.MovieSearchCriteria;
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveMovie;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetMovie;
 import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundException;
 import com.emilymenchu.projects.MovieManagement.mapper.MovieMapper;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Movie;
 import com.emilymenchu.projects.MovieManagement.persistence.repository.MovieCrudRepository;
-import com.emilymenchu.projects.MovieManagement.persistence.service.MovieService;
-import com.emilymenchu.projects.MovieManagement.util.MovieGenre;
+import com.emilymenchu.projects.MovieManagement.persistence.specification.FindAllMoviesSpecification;
+import com.emilymenchu.projects.MovieManagement.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Transactional
 @Service
@@ -28,27 +28,28 @@ public class MovieServiceImpl implements MovieService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<GetMovie> findAll() {
-        return MovieMapper.toGetDtoList(movieCrudRepository.findAll());
+    public List<GetMovie> findAll(MovieSearchCriteria searchCriteria) {
+        FindAllMoviesSpecification specification = new FindAllMoviesSpecification(searchCriteria);
+        return MovieMapper.toGetDtoList(movieCrudRepository.findAll(specification));
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<GetMovie> findAllByTitle(String title) {
-        return MovieMapper.toGetDtoList(movieCrudRepository.findByTitleContaining(title));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<GetMovie> findAllByGenre(MovieGenre genre) {
-        return MovieMapper.toGetDtoList(movieCrudRepository.findByGenre(genre));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<GetMovie> findAllByTitleAndGenre(String title, MovieGenre genre) {
-        return MovieMapper.toGetDtoList(movieCrudRepository.findByTitleContainingAndGenre(title, genre));
-    }
+//    @Transactional(readOnly = true)
+//    @Override
+//    public List<GetMovie> findAllByTitle(String title) {
+//        return MovieMapper.toGetDtoList(movieCrudRepository.findByTitleContaining(title));
+//    }
+//
+//    @Transactional(readOnly = true)
+//    @Override
+//    public List<GetMovie> findAllByGenre(MovieGenre genre) {
+//        return MovieMapper.toGetDtoList(movieCrudRepository.findByGenre(genre));
+//    }
+//
+//    @Transactional(readOnly = true)
+//    @Override
+//    public List<GetMovie> findAllByTitleAndGenre(String title, MovieGenre genre) {
+//        return MovieMapper.toGetDtoList(movieCrudRepository.findByTitleContainingAndGenre(title, genre));
+//    }
 
     @Transactional(readOnly = true)
     @Override

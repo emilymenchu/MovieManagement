@@ -1,9 +1,7 @@
-package com.emilymenchu.projects.MovieManagement.persistence.service.validator;
+package com.emilymenchu.projects.MovieManagement.service.validator;
 
-import ch.qos.logback.core.util.StringUtil;
 import com.emilymenchu.projects.MovieManagement.exception.InvalidPasswordException;
 import org.springframework.util.StringUtils;
-import org.springframework.web.server.ResponseStatusException;
 
 public class PasswordValidator {
     public static void validatePassword(String password, String passwordRepeated){
