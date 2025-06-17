@@ -10,6 +10,8 @@ import com.emilymenchu.projects.MovieManagement.persistence.repository.MovieCrud
 import com.emilymenchu.projects.MovieManagement.persistence.specification.FindAllMoviesSpecification;
 import com.emilymenchu.projects.MovieManagement.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,28 +30,10 @@ public class MovieServiceImpl implements MovieService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<GetMovie> findAll(MovieSearchCriteria searchCriteria) {
+    public Page<GetMovie> findAll(MovieSearchCriteria searchCriteria, Pageable pageable) {
         FindAllMoviesSpecification specification = new FindAllMoviesSpecification(searchCriteria);
-        return MovieMapper.toGetDtoList(movieCrudRepository.findAll(specification));
+        return movieCrudRepository.findAll(specification, pageable).map(MovieMapper::toGetDto);
     }
-
-//    @Transactional(readOnly = true)
-//    @Override
-//    public List<GetMovie> findAllByTitle(String title) {
-//        return MovieMapper.toGetDtoList(movieCrudRepository.findByTitleContaining(title));
-//    }
-//
-//    @Transactional(readOnly = true)
-//    @Override
-//    public List<GetMovie> findAllByGenre(MovieGenre genre) {
-//        return MovieMapper.toGetDtoList(movieCrudRepository.findByGenre(genre));
-//    }
-//
-//    @Transactional(readOnly = true)
-//    @Override
-//    public List<GetMovie> findAllByTitleAndGenre(String title, MovieGenre genre) {
-//        return MovieMapper.toGetDtoList(movieCrudRepository.findByTitleContainingAndGenre(title, genre));
-//    }
 
     @Transactional(readOnly = true)
     @Override

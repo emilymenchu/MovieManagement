@@ -4,14 +4,13 @@ import com.emilymenchu.projects.MovieManagement.dto.request.MovieSearchCriteria;
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveMovie;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetMovie;
 import com.emilymenchu.projects.MovieManagement.util.MovieGenre;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface MovieService {
-    List<GetMovie> findAll(MovieSearchCriteria searchCriteria);
-//    List<GetMovie> findAllByTitle(String title);
-//    List<GetMovie> findAllByGenre(MovieGenre genre);
-//    List<GetMovie> findAllByTitleAndGenre(String title, MovieGenre genre);
+    Page<GetMovie> findAll(MovieSearchCriteria searchCriteria, Pageable pageable);
     GetMovie findById(Long id);
     GetMovie save(SaveMovie movie);
     GetMovie update(Long id, SaveMovie movie);

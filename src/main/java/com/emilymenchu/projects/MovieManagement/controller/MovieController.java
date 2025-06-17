@@ -8,6 +8,9 @@ import com.emilymenchu.projects.MovieManagement.util.MovieGenre;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,15 +30,16 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetMovie>> findAll(@RequestParam(required = false) String title,
+    public ResponseEntity<Page<GetMovie>> findAll(@RequestParam(required = false) String title,
                                                   @RequestParam(required = false) MovieGenre[] genres,
                                                   @RequestParam(required = false) Integer minReleaseYear,
                                                   @RequestParam(required = false) Integer maxReleaseYear,
-                                                  @RequestParam(required = false) Integer minAverageRating
+                                                  @RequestParam(required = false) Integer minAverageRating,
+                                                  @PageableDefault Pageable pageable
                                                   ) {
 //        return new ResponseEntity<>(movieService.findAll(), HttpStatus.OK);
         MovieSearchCriteria searchCriteria = new MovieSearchCriteria(title, genres, minReleaseYear, maxReleaseYear, minAverageRating);
-        return ResponseEntity.ok(movieService.findAll(searchCriteria));
+        return ResponseEntity.ok(movieService.findAll(searchCriteria, pageable));
     }
 
     @GetMapping("/{id}")

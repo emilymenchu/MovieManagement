@@ -3,7 +3,6 @@ package com.emilymenchu.projects.MovieManagement.persistence.specification;
 import com.emilymenchu.projects.MovieManagement.dto.request.MovieSearchCriteria;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Movie;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Rating;
-import com.emilymenchu.projects.MovieManagement.util.MovieGenre;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
