@@ -1,6 +1,8 @@
 package com.emilymenchu.projects.MovieManagement;
 
+import com.emilymenchu.projects.MovieManagement.persistence.entity.Rating;
 import com.emilymenchu.projects.MovieManagement.persistence.repository.MovieCrudRepository;
+import com.emilymenchu.projects.MovieManagement.persistence.repository.RatingCrudRepository;
 import com.emilymenchu.projects.MovieManagement.util.MovieGenre;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,11 +20,9 @@ public class MovieManagementApplication {
 	}
 
 	@Bean
-	public CommandLineRunner testFindAllMOviesByGenreOrderBy(MovieCrudRepository movieCrudRepository) {
+	public CommandLineRunner testRatingRepository(RatingCrudRepository repo) {
 		return args -> {
-			Sort sort = Sort.by("releaseYear").descending().and(Sort.by(Sort.Direction.ASC, "id"));
-			Pageable pageable = PageRequest.of(0, 10, sort);
-			movieCrudRepository.findAllByGenre(MovieGenre.DRAMA, pageable).forEach(System.out::println);
+
 		};
 	}
 }

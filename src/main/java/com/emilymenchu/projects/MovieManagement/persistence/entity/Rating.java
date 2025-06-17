@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Check;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"movie_id", "user_id"}))
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
