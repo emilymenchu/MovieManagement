@@ -9,8 +9,12 @@ import com.emilymenchu.projects.MovieManagement.persistence.repository.UserCrudR
 import com.emilymenchu.projects.MovieManagement.service.UserService;
 import com.emilymenchu.projects.MovieManagement.service.validator.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -27,14 +31,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<GetUser> findAll() {
-        return UserMapper.toGetUserList(crudRepository.findAll());
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<GetUser> findAllByName(String name) {
-        return UserMapper.toGetUserList(crudRepository.findByNameContaining(name));
+    public Page<GetUser> findAll(String name, Pageable pageable) {
+        return crudRepository.findByNameContaining(name, pageable).map(UserMapper::toGetUserDto);
     }
 
     @Transactional(readOnly = true)

@@ -6,6 +6,8 @@ import com.emilymenchu.projects.MovieManagement.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +25,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetUser>> findAll(){
-        return ResponseEntity.ok(userService.findAll());
+    public ResponseEntity<Page<GetUser>> findAll(@RequestParam(required = false) String name, Pageable pageable){
+        return ResponseEntity.ok(userService.findAll(name, pageable));
     }
 
     @GetMapping("/{username}")
