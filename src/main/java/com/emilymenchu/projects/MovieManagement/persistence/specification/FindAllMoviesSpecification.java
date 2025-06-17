@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FindAllMoviesSpecification implements Specification<Movie> {
@@ -27,11 +28,7 @@ public class FindAllMoviesSpecification implements Specification<Movie> {
         }
 
         if (searchCriteria.genres() != null && searchCriteria.genres().length > 0) {
-            List<Predicate> genrePredicates = new ArrayList<>();
-            for (MovieGenre genre : searchCriteria.genres()) {
-                genrePredicates.add(criteriaBuilder.equal(root.get("genre"), genre));
-            }
-            predicates.add(criteriaBuilder.or(genrePredicates.toArray(new Predicate[0])));
+            predicates.add(criteriaBuilder.in(root.get("genre")).value(Arrays.stream(this.searchCriteria.genres()).toList()));
         }
 
         if (searchCriteria.minReleaseYear() != null && searchCriteria.minReleaseYear() > 0) {
