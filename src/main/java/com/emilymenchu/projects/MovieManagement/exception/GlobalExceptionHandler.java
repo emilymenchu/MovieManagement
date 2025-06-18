@@ -192,7 +192,7 @@ public class GlobalExceptionHandler {
                 httpStatus,
                 request.getRequestURL().toString(),
                 request.getMethod(),
-                duplicateRatingException.getMessage(), 
+                duplicateRatingException.getMessage(),
                 duplicateRatingException.getMessage(),
                 timestamp,
                 null

@@ -2,6 +2,7 @@ package com.emilymenchu.projects.MovieManagement.service.impl;
 
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveRating;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetCompleteRating;
+import com.emilymenchu.projects.MovieManagement.exception.DuplicateRatingException;
 import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundException;
 import com.emilymenchu.projects.MovieManagement.mapper.RatingMapper;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Rating;
@@ -64,6 +65,9 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public GetCompleteRating save(SaveRating save) {
+        if (crudRepository.existsByMovieIdAndUserUsername(save.movieId(), save.username())){
+            return this.update(crudRepository.getRatingIdByMovieIdAndUserUsername(save.movieId(), save.username()), save);
+        }
         User user = userService.findEntityByUsername(save.username());
         Rating rating = RatingMapper.toEntity(save, user.getId());
         crudRepository.save(rating);
