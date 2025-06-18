@@ -41,8 +41,9 @@ public class UserServiceImpl implements UserService {
         return UserMapper.toGetUserDto(this.findEntityByUsername(username));
     }
 
+
     @Transactional(readOnly = true)
-    private User findEntityByUsername(String username) {
+    public User findEntityByUsername(String username) {
         return crudRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("[user: " + username + "]"));
     }
 

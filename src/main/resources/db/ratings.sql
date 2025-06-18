@@ -78,4 +78,3 @@ INSERT INTO Rating (movie_id, user_id, rating) VALUES (22, 7, 4);
 INSERT INTO Rating (movie_id, user_id, rating) VALUES (23, 7, 3);
 INSERT INTO Rating (movie_id, user_id, rating) VALUES (24, 7, 2);
 INSERT INTO Rating (movie_id, user_id, rating) VALUES (25, 7, 1);
-INSERT INTO Rating (movie_id, user_id, rating) VALUES (25, 7, 1);

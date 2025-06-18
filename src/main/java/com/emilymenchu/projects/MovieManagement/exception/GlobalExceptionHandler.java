@@ -29,7 +29,8 @@ public class GlobalExceptionHandler {
             MethodArgumentNotValidException.class,
             HttpRequestMethodNotSupportedException.class,
             HttpMediaTypeNotSupportedException.class,
-            HttpMessageNotReadableException.class
+            HttpMessageNotReadableException.class,
+            DuplicateRatingException.class
     })
     public ResponseEntity<ApiError> handleGenericException(Exception exception, HttpServletRequest request, HttpServletResponse response) {
         ZoneId zoneId = ZoneId.of("America/Guatemala");
@@ -50,6 +51,8 @@ public class GlobalExceptionHandler {
                     this.handleHttpMediaTypeNotSupportedException(httpMediaTypeNotSupportedException, request, response, timestamp);
             case HttpMessageNotReadableException httpMessageNotReadableException ->
                     this.handleHttpMessageNotReadableException(httpMessageNotReadableException, request, response, timestamp);
+            case DuplicateRatingException duplicateRatingException ->
+                    this.handleDuplicateRatingException(duplicateRatingException, request, response, timestamp);
             case null, default -> this.handleException(exception, request, response, timestamp);
         };
     }
@@ -176,6 +179,21 @@ public class GlobalExceptionHandler {
                 request.getMethod(),
                 "Oops! Error reading the HTTP message body. Make sure the request is correctly formatted and contains valid data.",
                 httpMessageNotReadableException.getMessage(),
+                timestamp,
+                null
+        );
+        return ResponseEntity.status(httpStatus).body(apiError);
+    }
+
+    private ResponseEntity<ApiError> handleDuplicateRatingException(DuplicateRatingException duplicateRatingException, HttpServletRequest request, HttpServletResponse response, LocalDateTime timestamp) {
+        int httpStatus = HttpStatus.CONFLICT.value();
+
+        ApiError apiError = new ApiError(
+                httpStatus,
+                request.getRequestURL().toString(),
+                request.getMethod(),
+                duplicateRatingException.getMessage(), 
+                duplicateRatingException.getMessage(),
                 timestamp,
                 null
         );
