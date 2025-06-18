@@ -2,6 +2,8 @@ package com.emilymenchu.projects.MovieManagement.service.impl;
 
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveRating;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetCompleteRating;
+import com.emilymenchu.projects.MovieManagement.dto.response.GetMovie;
+import com.emilymenchu.projects.MovieManagement.dto.response.GetUser;
 import com.emilymenchu.projects.MovieManagement.exception.DuplicateRatingException;
 import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundException;
 import com.emilymenchu.projects.MovieManagement.mapper.RatingMapper;
@@ -42,14 +44,14 @@ public class RatingServiceImpl implements RatingService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<GetCompleteRating> findAllByMovieId(Long movieId, Pageable pageable) {
-        return crudRepository.findByMovieId(movieId, pageable).map(RatingMapper::toGetCompleteRatingDto);
+    public Page<GetMovie.GetRating> findAllByMovieId(Long movieId, Pageable pageable) {
+        return crudRepository.findByMovieId(movieId, pageable).map(RatingMapper::toGetMovieRatingDto);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Page<GetCompleteRating> findAllByUsername(String username, Pageable pageable) {
-        return crudRepository.findByUsername(username, pageable).map(RatingMapper::toGetCompleteRatingDto);
+    public Page<GetUser.GetRating> findAllByUsername(String username, Pageable pageable) {
+        return crudRepository.findByUsername(username, pageable).map(RatingMapper::toGetUserRatingDto);
     }
 
     @Transactional(readOnly = true)

@@ -8,7 +8,8 @@ import java.util.List;
 public record GetUser(
         String username,
         String name,
-        List<GetRating> rating
+        List<GetRating> rating,
+        int totalRatings
 ) implements Serializable {
     public static record GetRating(
             long id,

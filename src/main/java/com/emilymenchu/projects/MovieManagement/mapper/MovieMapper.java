@@ -15,7 +15,8 @@ public class MovieMapper {
                 entity.getDirector(),
                 entity.getGenre(),
                 entity.getReleaseYear(),
-                RatingMapper.toGetMovieRatingDtoList(entity.getRatings())
+                RatingMapper.toGetMovieRatingDtoList(entity.getRatings()),
+                entity.getRatings() != null ? entity.getRatings().size() : 0
         );
     }
 

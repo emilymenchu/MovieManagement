@@ -2,6 +2,7 @@ package com.emilymenchu.projects.MovieManagement.controller;
 
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveUser;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetUser;
+import com.emilymenchu.projects.MovieManagement.service.RatingService;
 import com.emilymenchu.projects.MovieManagement.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -18,10 +19,12 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final RatingService ratingService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RatingService ratingService) {
         this.userService = userService;
+        this.ratingService = ratingService;
     }
 
     @GetMapping
@@ -32,6 +35,11 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<GetUser> findByUsername(@PathVariable String username) {
             return ResponseEntity.ok(userService.findByUsername(username));
+    }
+
+    @GetMapping("/{username}/ratings")
+    public ResponseEntity<Page<GetUser.GetRating>> findRatingsByUser(@PathVariable String username, Pageable pageable) {
+        return ResponseEntity.ok(ratingService.findAllByUsername(username, pageable));
     }
 
     @PostMapping

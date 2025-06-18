@@ -12,7 +12,8 @@ public class UserMapper {
         return new GetUser(
                 entity.getUsername(),
                 entity.getName(),
-                RatingMapper.toGetUserRatingDtoList(entity.getRatings())
+                RatingMapper.toGetUserRatingDtoList(entity.getRatings()),
+                entity.getRatings() != null ? entity.getRatings().size() : 0
         );
     }
 
