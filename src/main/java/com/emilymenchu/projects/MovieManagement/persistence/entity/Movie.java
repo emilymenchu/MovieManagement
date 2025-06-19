@@ -35,7 +35,7 @@ public class Movie {
     @Column(updatable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
     private LocalDateTime createdAt;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "movie")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "movie", cascade = {CascadeType.REMOVE})
     @JsonManagedReference("movie-to-ratings")
     private List<Rating> ratings;
 
