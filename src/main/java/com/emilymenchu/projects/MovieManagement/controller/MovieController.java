@@ -3,6 +3,7 @@ package com.emilymenchu.projects.MovieManagement.controller;
 import com.emilymenchu.projects.MovieManagement.dto.request.MovieSearchCriteria;
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveMovie;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetMovie;
+import com.emilymenchu.projects.MovieManagement.dto.response.GetMovieStatistic;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Rating;
 import com.emilymenchu.projects.MovieManagement.service.MovieService;
 import com.emilymenchu.projects.MovieManagement.service.RatingService;
@@ -47,7 +48,7 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetMovie> findById(@PathVariable Long id) {
+    public ResponseEntity<GetMovieStatistic> findById(@PathVariable Long id) {
             return ResponseEntity.ok(movieService.findById(id));
     }
 

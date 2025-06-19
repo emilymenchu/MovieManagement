@@ -2,6 +2,7 @@ package com.emilymenchu.projects.MovieManagement.controller;
 
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveUser;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetUser;
+import com.emilymenchu.projects.MovieManagement.dto.response.GetUserStatistic;
 import com.emilymenchu.projects.MovieManagement.service.RatingService;
 import com.emilymenchu.projects.MovieManagement.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<GetUser> findByUsername(@PathVariable String username) {
+    public ResponseEntity<GetUserStatistic> findByUsername(@PathVariable String username) {
             return ResponseEntity.ok(userService.findByUsername(username));
     }
 

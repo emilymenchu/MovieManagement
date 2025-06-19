@@ -2,9 +2,11 @@ package com.emilymenchu.projects.MovieManagement.service.impl;
 
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveUser;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetUser;
+import com.emilymenchu.projects.MovieManagement.dto.response.GetUserStatistic;
 import com.emilymenchu.projects.MovieManagement.exception.ObjectNotFoundException;
 import com.emilymenchu.projects.MovieManagement.mapper.UserMapper;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.User;
+import com.emilymenchu.projects.MovieManagement.persistence.repository.RatingCrudRepository;
 import com.emilymenchu.projects.MovieManagement.persistence.repository.UserCrudRepository;
 import com.emilymenchu.projects.MovieManagement.service.UserService;
 import com.emilymenchu.projects.MovieManagement.service.validator.PasswordValidator;
@@ -23,10 +25,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserCrudRepository crudRepository;
+    private final RatingCrudRepository ratingCrudRepository;
 
     @Autowired
-    public UserServiceImpl(UserCrudRepository crudRepository) {
+    public UserServiceImpl(UserCrudRepository crudRepository, RatingCrudRepository ratingCrudRepository) {
         this.crudRepository = crudRepository;
+        this.ratingCrudRepository = ratingCrudRepository;
     }
 
     @Transactional(readOnly = true)
@@ -37,8 +41,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public GetUser findByUsername(String username) {
-        return UserMapper.toGetUserDto(this.findEntityByUsername(username));
+    public GetUserStatistic findByUsername(String username) {
+        Double averageRating = ratingCrudRepository.getAverageRatingByUser(username);
+        Integer minRating = ratingCrudRepository.getMinRatingByUser(username);
+        Integer maxRating = ratingCrudRepository.getMaxRatingByUser(username);
+        Integer totalRatings = ratingCrudRepository.countByUserUsername(username);
+        return UserMapper.toGetUserStatistic(this.findEntityByUsername(username), averageRating, minRating, maxRating, totalRatings);
     }
 
 

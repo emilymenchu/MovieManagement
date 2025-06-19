@@ -23,4 +23,26 @@ public interface RatingCrudRepository extends JpaRepository<Rating, Long> {
 
     @Query("select r.id from Rating r join r.user u where r.movieId = :movieId and u.username = :username")
     Long getRatingIdByMovieIdAndUserUsername(Long movieId, String username);
+
+    @Query("SELECT AVG(r.rating) FROM Rating r JOIN  r.user u WHERE u.username = :username")
+    Double getAverageRatingByUser(String username);
+
+    @Query("SELECT AVG(r.rating) FROM Rating r WHERE r.movieId = :movieId")
+    Double getAverageRatingByMovie(Long movieId);
+
+    @Query("SELECT MAX(r.rating) FROM Rating r JOIN r.user u WHERE u.username = :username")
+    Integer getMaxRatingByUser(String username);
+
+    @Query("SELECT MIN(r.rating) FROM Rating r JOIN r.user u WHERE u.username = :username")
+    Integer getMinRatingByUser(String username);
+
+    @Query("SELECT MAX(r.rating) FROM Rating r WHERE r.movieId = :movieId")
+    Integer getMaxRatingByMovie(Long movieId);
+
+    @Query("SELECT MIN(r.rating) FROM Rating r WHERE r.movieId = :movieId")
+    Integer getMinRatingByMovie(Long movieId);
+
+    Integer countByMovieId(Long id);
+
+    Integer countByUserUsername(String username);
 }

@@ -2,11 +2,29 @@ package com.emilymenchu.projects.MovieManagement.mapper;
 
 import com.emilymenchu.projects.MovieManagement.dto.request.SaveMovie;
 import com.emilymenchu.projects.MovieManagement.dto.response.GetMovie;
+import com.emilymenchu.projects.MovieManagement.dto.response.GetMovieStatistic;
+import com.emilymenchu.projects.MovieManagement.dto.response.GetUserStatistic;
 import com.emilymenchu.projects.MovieManagement.persistence.entity.Movie;
 
 import java.util.List;
 
 public class MovieMapper {
+
+    public static GetMovieStatistic toGetMovieStatistic(Movie entity, Double averageRating, Integer minRating, Integer maxRating, Integer totalRatings) {
+        if (entity == null) return null;
+        return new GetMovieStatistic(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getDirector(),
+                entity.getGenre(),
+                totalRatings != null ? totalRatings : 0,
+                entity.getReleaseYear(),
+                averageRating != null ? averageRating : 0,
+                minRating != null ? minRating : 0,
+                maxRating != null ? maxRating : 0
+        );
+    }
+
     public static GetMovie toGetDto(Movie entity) {
         if (entity == null) return null;
         return new GetMovie(
